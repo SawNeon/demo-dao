@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.dao.DaoFactory;
+import model.dao.DepartmentDao;
 import model.dao.SellerDao;
 import model.entites.Department;
 import model.entites.Seller;
@@ -17,9 +18,11 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		
 		SellerDao sellerDao = DaoFactory.createSellerDao();
+		DepartmentDao departmentDao = DaoFactory.createDepartmentDao();
 		
 		
-		System.out.println("=== TEST 1: seller findById ===");
+		Department department = new Department();
+		
 		Seller seller = sellerDao.findById(3);
 		System.out.println(seller);
 		
@@ -58,6 +61,34 @@ public class Program {
 		System.out.println("Delete complete");
 		
 		
+		System.out.println("\n ==== TEST 7: Department insert ====");
+		Department newDepartment = new Department(null, "Engineer");
+		departmentDao.insert(newDepartment);
+		System.out.println("Inserted! New id = " + newDepartment.getId());
+		
+		System.out.println("\n ==== TEST 8: Department update ====");
+		department = departmentDao.findById(10);
+		department.setName("Finance");
+		departmentDao.update(department);
+		
+		System.out.println("\n ==== TEST 9: Department delete ====");
+		System.out.println("Enter id for delete ");
+		int idDelete = sc.nextInt();
+		
+		departmentDao.deleteById(idDelete);
+		System.out.println("Delete complete");
+		
+		
+		System.out.println("\n ==== TEST 10: Department findById ====");
+		department = departmentDao.findById(1);
+		
+		System.out.println(department);
+		
+		System.out.println("\n ==== TEST 11: Department findAll ====");
+		List<Department> listD = departmentDao.findAll();
+		for(Department dep : listD) {
+			System.out.println(dep);
+		}		
 		sc.close();
 	}
 
